@@ -1,4 +1,4 @@
-import { CheckCircle, Leaf, Sun } from 'lucide-react';
+import { CheckCircle, Sun } from 'lucide-react';
 import { SlideContainer } from '../SlideContainer';
 import { SlideProps } from '@/types/presentation';
 

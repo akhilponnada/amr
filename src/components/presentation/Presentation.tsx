@@ -4,6 +4,10 @@ import { useFinancialCalculator } from '@/hooks/useFinancialCalculator';
 import { useScenarios } from '@/hooks/useScenarios';
 import { SlideNavigation } from './SlideNavigation';
 import { FinancialInputsPanel } from './FinancialInputsPanel';
+import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 import { CoverSlide } from './slides/CoverSlide';
 import { DashboardSlide } from './slides/DashboardSlide';
 import { ProjectSnapshotSlide } from './slides/ProjectSnapshotSlide';
@@ -21,10 +25,6 @@ import { ProfitabilitySlide } from './slides/ProfitabilitySlide';
 import { ROISlide } from './slides/ROISlide';
 import { TurnkeyScopeSlide } from './slides/TurnkeyScopeSlide';
 import { ConclusionSlide } from './slides/ConclusionSlide';
-import { cn } from '@/lib/utils';
-
-type DeviceView = 'mobile' | 'tablet' | 'desktop';
-
 const SLIDE_NAMES = [
   'Cover', 'Dashboard', 'Project Snapshot', 'Generation Assumptions', 'Cost Breakup',
   'Additional Charges', 'Debt Structure', 'EMI Schedule', 'Open Access Charges',
@@ -32,16 +32,9 @@ const SLIDE_NAMES = [
   'Profitability', 'ROI & Breakeven', 'Turnkey Scope', 'Conclusion'
 ];
 
-const deviceWidths: Record<DeviceView, string> = {
-  mobile: 'max-w-[375px]',
-  tablet: 'max-w-[768px]',
-  desktop: 'max-w-full',
-};
-
 export function Presentation() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [inputs, setInputs] = useState<FinancialInputs>(DEFAULT_INPUTS);
-  const [deviceView, setDeviceView] = useState<DeviceView>('desktop');
   const metrics = useFinancialCalculator(inputs);
   const { scenarios, saveScenario, deleteScenario, loadScenario } = useScenarios();
 
@@ -65,6 +58,41 @@ export function Presentation() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background">
+      {/* Floating Menu Icon on Left */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="fixed top-4 left-4 z-50 border"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-80">
+          <SheetHeader>
+            <SheetTitle className="text-primary">Slides</SheetTitle>
+          </SheetHeader>
+          <nav className="mt-6 space-y-1">
+            {SLIDE_NAMES.map((name, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={cn(
+                  'w-full text-left px-4 py-3 rounded-lg text-sm transition-colors',
+                  currentSlide === index
+                    ? 'bg-primary text-primary-foreground font-medium'
+                    : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <span className="opacity-60 mr-2">{index + 1}.</span>
+                {name}
+              </button>
+            ))}
+          </nav>
+        </SheetContent>
+      </Sheet>
+
       <FinancialInputsPanel
         inputs={inputs}
         onInputChange={handleInputChange}
@@ -75,19 +103,8 @@ export function Presentation() {
         onDeleteScenario={deleteScenario}
       />
       
-      {/* Device Preview Container */}
-      <div className={cn(
-        "relative h-[calc(100vh-64px)] mx-auto transition-all duration-300",
-        deviceView !== 'desktop' && 'border-x border-border shadow-lg bg-background',
-        deviceWidths[deviceView]
-      )}>
-        {/* Device Frame Indicator for Mobile/Tablet */}
-        {deviceView !== 'desktop' && (
-          <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-3 py-1 bg-muted rounded-t-lg text-xs text-muted-foreground font-medium">
-            {deviceView === 'mobile' ? '📱 Mobile View' : '📱 iPad View'}
-          </div>
-        )}
-        
+      {/* Presentation Container */}
+      <div className="relative h-[calc(100vh-64px)] mx-auto">
         <div className="h-full overflow-hidden">
           <CoverSlide isActive={currentSlide === 0} />
           <DashboardSlide {...slideProps} isActive={currentSlide === 1} />
@@ -116,8 +133,6 @@ export function Presentation() {
         onNavigate={setCurrentSlide}
         onPrev={() => setCurrentSlide((p) => Math.max(p - 1, 0))}
         onNext={() => setCurrentSlide((p) => Math.min(p + 1, SLIDE_NAMES.length - 1))}
-        deviceView={deviceView}
-        onDeviceViewChange={setDeviceView}
       />
     </div>
   );

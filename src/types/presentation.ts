@@ -85,12 +85,12 @@ export const PROJECT_SPECS = {
   capacity: 1.5,
   capacityUnit: 'MW',
   landRequirement: '5-6 Acres',
-  location: 'ARM Mall, Hyderabad',
+  location: 'AMR Mall, Secunderabad',
   model: 'Open Access / Third-Party PPA',
   projectLife: '30+ Years',
   projectLifeYears: 30,
   unitsPerMW: 1600000,
   landCostPerAcre: 50, // in lakhs
   landAppreciationRate: 8, // % per annum
-  client: 'ARM Mall, Hyderabad',
+  client: 'AMR Mall, Secunderabad',
 };

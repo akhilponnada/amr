@@ -52,10 +52,6 @@ export function CoverSlide({ isActive }: CoverSlideProps) {
           </div>
         </div>
         
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-          <p className="text-sm">Presented by</p>
-          <p className="text-lg font-semibold text-solar-orange">Unite Solar</p>
-        </div>
       </div>
     </SlideContainer>
   );

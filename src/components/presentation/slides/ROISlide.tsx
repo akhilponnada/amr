@@ -1,7 +1,7 @@
-import { Target, Calendar, TrendingUp, IndianRupee } from 'lucide-react';
+import { Target, Calendar, TrendingUp, IndianRupee, Clock } from 'lucide-react';
 import { SlideContainer } from '../SlideContainer';
 import { MetricCard } from '../MetricCard';
-import { SlideProps } from '@/types/presentation';
+import { SlideProps, PROJECT_SPECS } from '@/types/presentation';
 
 export function ROISlide({ inputs, metrics, isActive }: SlideProps) {
   return (
@@ -15,8 +15,12 @@ export function ROISlide({ inputs, metrics, isActive }: SlideProps) {
           <MetricCard icon={<Calendar className="w-5 h-5" />} label="Loan Closure" value={`Year ${(inputs.loanTenureMonths / 12).toFixed(1)}`} variant="default" />
           <MetricCard icon={<TrendingUp className="w-5 h-5" />} label="Equity IRR" value={`${metrics.equityIRR.min}–${metrics.equityIRR.max}%`} variant="secondary" />
         </div>
-        <div className="mt-8 p-6 rounded-xl bg-primary/5 border border-primary/20 text-center">
-          <p className="text-lg"><strong>Asset Life: 25–30 Years</strong> of predictable returns after loan closure</p>
+        <div className="mt-8 p-6 rounded-xl bg-primary/5 border border-primary/20">
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <Clock className="w-6 h-6 text-primary" />
+            <p className="text-lg font-semibold">Asset Life: {PROJECT_SPECS.projectLifeYears}+ Years</p>
+          </div>
+          <p className="text-center text-muted-foreground">Predictable returns for {PROJECT_SPECS.projectLifeYears - Math.ceil(inputs.loanTenureMonths/12)} years after loan closure</p>
         </div>
       </div>
     </SlideContainer>

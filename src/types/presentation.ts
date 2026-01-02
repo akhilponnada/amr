@@ -21,6 +21,25 @@ export interface CalculatedMetrics {
   postLoanCashFlow: number;
   breakEvenYear: number;
   equityIRR: { min: number; max: number };
+  // Depreciation
+  year1Depreciation: number;
+  year2Depreciation: number;
+  remainingDepreciation: number;
+  totalDepreciationBenefit: number;
+  // Land appreciation
+  landCost: number;
+  landValueYear10: number;
+  landValueYear20: number;
+  landValueYear30: number;
+  // EMI Schedule
+  emiSchedule: Array<{
+    year: number;
+    openingBalance: number;
+    emi: number;
+    principal: number;
+    interest: number;
+    closingBalance: number;
+  }>;
 }
 
 export interface Scenario {
@@ -66,8 +85,12 @@ export const PROJECT_SPECS = {
   capacity: 1.5,
   capacityUnit: 'MW',
   landRequirement: '5-6 Acres',
-  location: 'Nalgonda District, Telangana',
+  location: 'ARM Mall, Hyderabad',
   model: 'Open Access / Third-Party PPA',
-  projectLife: '25-30 Years',
+  projectLife: '30+ Years',
+  projectLifeYears: 30,
   unitsPerMW: 1600000,
+  landCostPerAcre: 50, // in lakhs
+  landAppreciationRate: 8, // % per annum
+  client: 'ARM Mall, Hyderabad',
 };

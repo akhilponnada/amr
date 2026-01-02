@@ -64,9 +64,12 @@ export function Presentation() {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="fixed top-4 left-4 z-50 border"
+            className={cn(
+              "fixed top-4 left-4 z-50 border",
+              currentSlide === 0 && "text-white border-white/20 hover:bg-white/10"
+            )}
           >
-            <Menu className="h-5 w-5" />
+            <Menu className={cn("h-5 w-5", currentSlide === 0 && "text-white")} />
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-80">
